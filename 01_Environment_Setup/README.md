@@ -17,7 +17,6 @@ export ORACLE_HOME=$ORACLE_BASE/product/19.3.0/dbhome_1
 export ORACLE_SID=orcl
 export PATH=$PATH:$ORACLE_HOME/bin
 export NLS_LANG=AMERICAN_AMERICA.AL32UTF8
-```
 
-### 사용자 홈 디렉토리의 .bash_profile 파일에 아래 내용을 추가하여, 터미널 접속 시 자동으로 오라클 환경이 로드되도록 구성
-### 수정한 내용을 즉시 적용하고, 변수가 정상적으로 등록되었는지 확인하는 과정입니다.
+- 사용자 홈 디렉토리의 .bash_profile 파일에 아래 내용을 추가하여, 터미널 접속 시 자동으로 오라클 환경이 로드되도록 구성
+- 수정한 내용을 즉시 적용하고, 변수가 정상적으로 등록되었는지 확인하는 과정입니다.
