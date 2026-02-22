@@ -35,6 +35,7 @@ Oracle 19c 기반의 데이터베이스 엔지니어링 실무 역량을 쌓기 
 * **Storage:** ASM(Automatic Storage Management) 활용 및 가상화 이해
 * **Recovery:** 다양한 파일 유실 상황에 대한 논리적 진단 및 복구 프로세스 수립
 * **Troubleshooting:** 설치 프로세스 병목 구간 분석 및 리소스 사이징(CPU/MEM) 최적화
+  - 특히 Grid Infrastructure 설치의 root.sh 실행 및 ASM 인스턴스 기동 단계에서 발생하는 리소스 경합(Resource Contention)을 분석하였으며, 이를 해결하기 위해 메모리 증량 및 커널 파라미터 최적화를 수행했습니다.
 
 ---
 
