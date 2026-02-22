@@ -27,7 +27,7 @@ Oracle 19c 기반의 데이터베이스 엔지니어링 실무 역량을 쌓기 
 - **2-Node RAC** 인프라 구축 및 클러스터웨어(GI) 관리
 - ASM(Automatic Storage Management)을 이용한 공유 스토리지 최적화
 - 서비스 기반 부하 분산 및 **TAF(Transparent Application Failover)** 검증
-<img width="521" height="412" alt="RAC구조도 drawio" src="https://github.com/user-attachments/assets/02e7dd4c-67d1-4263-872a-eca927b2e014" />
+<img width="521" height="412" alt="RAC구조도배경색 drawio" src="https://github.com/user-attachments/assets/2e610f1b-2887-4763-9dfd-cbfdca6f3637" />
 
 ---
 
