@@ -2,9 +2,6 @@
 
 Oracle 19c 기반의 데이터베이스 엔지니어링 실무 역량을 쌓기 위한 종합 프로젝트 레포지토리입니다. 단순 설치를 넘어 대규모 데이터 환경을 위한 **고가용성(HA)** 구축과 **장애 대응(Backup & Recovery)** 시나리오 실습을 중점적으로 다루었습니다.
 
-<img width="521" height="412" alt="RAC구조도 drawio" src="https://github.com/user-attachments/assets/02e7dd4c-67d1-4263-872a-eca927b2e014" />
-
-
 --- 
 
 ## 📂 Repository Structure
@@ -30,6 +27,7 @@ Oracle 19c 기반의 데이터베이스 엔지니어링 실무 역량을 쌓기 
 - **2-Node RAC** 인프라 구축 및 클러스터웨어(GI) 관리
 - ASM(Automatic Storage Management)을 이용한 공유 스토리지 최적화
 - 서비스 기반 부하 분산 및 **TAF(Transparent Application Failover)** 검증
+<img width="521" height="412" alt="RAC구조도 drawio" src="https://github.com/user-attachments/assets/02e7dd4c-67d1-4263-872a-eca927b2e014" />
 
 ---
 
