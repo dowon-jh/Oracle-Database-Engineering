@@ -1,48 +1,82 @@
-## 2. Oracle 인스턴스 제어 및 프로세스 모니터링
+# 02. Administration
 
-리눅스 터미널 환경에서 오라클 데이터베이스의 상태를 확인하고, 인스턴스를 기동 및 종료하는 실무적인 운영 방법입니다.
+Oracle 인스턴스의 기동, 종료, 프로세스 상태 확인을 정리한 운영 기본 문서입니다.
 
+## 1. Oracle 프로세스 확인
 
-#### 1) 오라클 주요 프로세스 확인
-OS 레벨에서 오라클 백그라운드 프로세스가 정상적으로 구동 중인지 체크합니다.
+OS 레벨에서 PMON 프로세스를 확인하면 인스턴스가 기동 중인지 빠르게 판단할 수 있습니다.
 
 ```bash
-# PMON 프로세스 확인 (인스턴스 기동 여부 파악)
 ps -ef | grep pmon
 ```
-💡 주요 백그라운드 프로세스 역할
 
-- PMON (Process Monitor): 프로세스 감시 및 장애 시 정리 수행. (존재 시 인스턴스 기동 의미)
+주요 background process:
 
-- DBWn (Database Writer): 버퍼 캐시의 데이터를 실제 데이터 파일에 기록.
+- PMON: 비정상 종료된 process 정리
+- DBWn: buffer cache의 dirty block을 data file에 기록
+- LGWR: redo log buffer를 redo log file에 기록
+- CKPT: checkpoint 발생 시 control file과 data file header 정보 동기화
 
-- LGWR (Log Writer): 로그 버퍼의 내용을 리두 로그 파일에 기록.
+## 2. 관리자 접속
 
-- CKPT (Checkpoint): DB 상태 정보 동기화 및 체크포인트 신호 전달.
-
-
-
-#### 2) 인스턴스 기동 및 종료 (Startup / Shutdown)
-sqlplus 관리자 권한으로 접속하여 데이터베이스 상태를 제어합니다.
-```
-# 관리자 권한 접속
+```bash
 sqlplus / as sysdba
-
-SQL> shutdown immediate
 ```
-✅ 인스턴스 기동 단계 (Startup Flow)
 
-- NOMOUNT: Parameter File 로드, SGA 메모리 할당 및 프로세스 기동
+운영 작업은 SYSDBA 권한이 필요한 경우가 많으므로, 현재 접속 계정과 권한을 먼저 확인해야 합니다.
 
-- MOUNT: Control File 로드, 데이터 파일 및 리두 로그 위치 파악
+## 3. Startup 단계
 
-- OPEN: 파일 정합성 체크 후 사용자 접속 허용
+Oracle 인스턴스는 다음 단계로 기동됩니다.
 
-✅ 인스턴스 종료 방식 (Shutdown)
+```text
+NOMOUNT
+-> parameter file 로드
+-> SGA 할당
+-> background process 기동
 
-- SHUTDOWN IMMEDIATE: (권장) 트랜잭션 롤백 및 안전한 종료.
+MOUNT
+-> control file 로드
+-> data file과 redo log 위치 확인
 
-- SHUTDOWN ABORT: 프로세스 강제 종료. (다음 기동 시 Instance Recovery 필요)
+OPEN
+-> 파일 정합성 확인
+-> 사용자 접속 허용
+```
 
+실행:
 
+```sql
+STARTUP;
+```
 
+## 4. Shutdown 방식
+
+권장 종료:
+
+```sql
+SHUTDOWN IMMEDIATE;
+```
+
+특징:
+
+- 신규 접속 차단
+- 진행 중 트랜잭션 rollback
+- 안전한 종료
+
+강제 종료:
+
+```sql
+SHUTDOWN ABORT;
+```
+
+주의:
+
+- 즉시 프로세스를 종료합니다.
+- 다음 startup 시 instance recovery가 필요할 수 있습니다.
+
+## 학습 포인트
+
+- startup 단계별로 읽는 파일이 다르기 때문에 장애 지점을 구분할 수 있습니다.
+- shutdown 방식은 다음 기동 시 복구 비용에 영향을 줍니다.
+- OS 프로세스와 DB 내부 상태를 함께 확인하는 습관이 중요합니다.

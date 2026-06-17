@@ -1,44 +1,79 @@
-# 🏛️ Oracle Database Engineering & Administration
+# Oracle Database Engineering and Administration
 
-Oracle 19c 기반의 데이터베이스 엔지니어링 실무 역량을 쌓기 위한 종합 프로젝트 레포지토리입니다. 단순 설치를 넘어 대규모 데이터 환경을 위한 **고가용성(HA)** 구축과 **장애 대응(Backup & Recovery)** 시나리오 실습을 중점적으로 다루었습니다.
+Oracle 19c 기반 데이터베이스 운영, 모니터링, 백업/복구, RAC 고가용성 구성을 실습한 프로젝트입니다. 단순 설치 기록이 아니라 장애 상황을 진단하고 복구 절차를 설계하는 데이터베이스 엔지니어링 관점으로 정리했습니다.
 
---- 
+## 프로젝트 목표
 
-## 📂 Repository Structure
+```text
+Oracle Linux 환경 구성
+-> Oracle 19c Single Instance 운영
+-> 인스턴스 상태 모니터링
+-> NOARCHIVELOG / ARCHIVELOG 복구 시나리오 실습
+-> 2-Node RAC, ASM, TAF 구성
+-> 장애 분석과 리소스 최적화
+```
 
-### [01. Environment Setup](./01_Environment_Setup)
-- Oracle Linux 환경에서의 19c Single & RAC 설치 가이드
-- 인프라 리소스 분석 및 커널 파라미터 최적화
+## 저장소 구성
 
-### [02. Administration](./02_Administration)
-- DB 초기화 파라미터(SPFILE/PFILE) 및 컨트롤 파일 관리
-- 유저 권한 제어 및 테이블스페이스 설계
+```text
+Oracle-Database-Engineering/
+  README.md
+  01_Environment_Setup/
+    README.md
+  02_Administration/
+    README.md
+  03_SQL_and_Monitoring/
+    README.md
+  04_Backup_and_Recovery/
+    Scenario_NOARCHIVE.md
+    Scenario_ARCHIVE/
+      Scenario_2.md
+  05_Oracle_RAC/
+    README.md
+```
 
-### [03. SQL & Monitoring](./03_SQL_and_Monitoring)
-- 효율적인 데이터 조회를 위한 SQL 튜닝 및 성능 모니터링
-- 인스턴스 상태 및 로그 분석
+## 주요 학습 주제
 
-### [04. Backup & Recovery](./04_Backup_and_Recovery)
-- **User Managed Backup** 기반의 24가지 장애 대응 시나리오 실습
-- **NOARCHIVELOG vs ARCHIVELOG** 모드별 복구 전략 차별화
-- `CREATE DATAFILE`을 이용한 무백업 파일 복구 및 불완전 복구(PITR) 수행
+### 1. Environment Setup
 
-### [05. Oracle RAC (Real Application Clusters)](./05_Oracle_RAC)
-- **2-Node RAC** 인프라 구축 및 클러스터웨어(GI) 관리
-- ASM(Automatic Storage Management)을 이용한 공유 스토리지 최적화
-- 서비스 기반 부하 분산 및 **TAF(Transparent Application Failover)** 검증
-<img width="521" height="412" alt="RAC구조도배경색 drawio" src="https://github.com/user-attachments/assets/2e610f1b-2887-4763-9dfd-cbfdca6f3637" />
+- Oracle Linux 환경 변수 설정
+- `ORACLE_BASE`, `ORACLE_HOME`, `ORACLE_SID` 이해
+- SQL*Plus 관리자 접속 흐름 정리
 
----
+### 2. Administration
 
-## 🛠️ Core Engineering Skills
-* **Architecture:** Oracle Single/RAC 인스턴스 구조 및 메모리(SGA/PGA) 아키텍처 이해
-* **Storage:** ASM(Automatic Storage Management) 활용 및 가상화 이해
-* **Recovery:** 다양한 파일 유실 상황에 대한 논리적 진단 및 복구 프로세스 수립
-* **Troubleshooting:** 설치 프로세스 병목 구간 분석 및 리소스 사이징(CPU/MEM) 최적화
-  - 특히 Grid Infrastructure 설치의 root.sh 실행 및 ASM 인스턴스 기동 단계에서 발생하는 리소스 경합(Resource Contention)을 분석하였으며, 이를 해결하기 위해 메모리 증량 및 커널 파라미터 최적화를 수행했습니다.
+- Oracle background process 확인
+- startup 단계인 NOMOUNT, MOUNT, OPEN 구분
+- shutdown 방식별 차이와 복구 영향 정리
 
----
+### 3. SQL and Monitoring
 
-## 💡 핵심 경험: "장애 분석 및 리소스 최적화를 통한 시스템 안정화"
-RAC 설치 과정에서 발생한 메모리 부족 이슈를 `installActions.log` 분석을 통해 진단하고, 노드당 32GB 증량 및 커널 튜닝을 통해 안정적인 클러스터를 구축한 경험이 있습니다. 기술적 한계를 분석하고 인프라 사양을 재산정하는 엔지니어링 사고방식을 학습했습니다.
+- `v$instance`, `v$session`, `v$log` 기반 상태 진단
+- 세션, 연결, redo log 상태 확인
+- 백엔드 connection pool 이슈와 DB 세션 모니터링 연결
+
+### 4. Backup and Recovery
+
+- NOARCHIVELOG 모드에서 복구 가능한 범위와 한계 확인
+- ARCHIVELOG 모드에서 온라인 복구와 완전 복구 흐름 실습
+- data file, control file, redo log 유실 시나리오 정리
+
+### 5. Oracle RAC
+
+- 2-Node RAC 네트워크 구조 이해
+- ASM 기반 공유 스토리지 구성
+- VIP, SCAN, TAF를 활용한 Failover 구조 검증
+- GI 설치 중 리소스 부족 문제를 로그 분석과 메모리 증설로 해결
+
+## 포트폴리오 핵심 포인트
+
+- Oracle 운영을 SQL뿐 아니라 OS, 메모리, 스토리지, 네트워크까지 함께 보는 관점으로 정리했습니다.
+- 장애 발생 시 DB가 어느 startup 단계에서 멈추는지 기준으로 원인을 좁히는 방식을 학습했습니다.
+- ARCHIVELOG 여부에 따라 복구 전략이 달라진다는 점을 시나리오별로 정리했습니다.
+- RAC 설치 과정에서 발생한 리소스 병목을 `installActions.log` 분석으로 진단하고 인프라 사양을 재산정했습니다.
+
+## 운영 관점 주의사항
+
+- 복구 명령은 데이터 손실 가능성이 있으므로 백업본, archive log, redo log 상태를 먼저 확인해야 합니다.
+- control file과 redo log는 운영 안정성을 위해 다중화가 필요합니다.
+- RAC 환경은 단일 DB보다 메모리와 네트워크 요구사항이 크므로 설치 전 sizing이 중요합니다.
